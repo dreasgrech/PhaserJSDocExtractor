@@ -1,6 +1,5 @@
 ﻿#define MULTI_THREADED
 
-using System;
 using System.Text;
 using System.Text.RegularExpressions;
 #if MULTI_THREADED
@@ -16,23 +15,21 @@ enum JSDocOperand
 internal class Program
 {
     // This regex captures JSDoc comments
-    const string JSDOC_BLOCK_REGEX = @"/\*\*[^*]*\*+([^/*][^*]*\*+)*/"; 
-    const string VALID_FILE_EXTENSIONS = "*.js";
+    private const string JSDOC_BLOCK_REGEX = @"/\*\*[^*]*\*+([^/*][^*]*\*+)*/"; 
+    private const string VALID_FILE_EXTENSIONS = "*.js";
+    private const string PHASER_DIRECTORY = @"C:\Users\Administrator\Documents\Github\phaser\src";
+    private const string OUTPUT_FILE_PATH = @"C:\Users\Administrator\Documents\jsBotArena\scripts\AllPhaserTypedefs.js";
+    private static readonly Encoding OUTPUT_FILE_ENCODING = Encoding.UTF8;
 
     private static void Main()
     {
-        var directoryPath = @"C:\Users\Administrator\Documents\Github\phaser\src";
-
-        // WriteTypeDefsToFile(directoryPath, JSDocOperand.Typedef, Path.Combine(baseOutputDirectory, "typedefs.output"));
-        // WriteTypeDefsToFile(directoryPath, JSDocOperand.Callback, Path.Combine(baseOutputDirectory, "callbacks.output"));
-
-        var typedefs = ExtractTypeDefs(directoryPath, JSDocOperand.Typedef);
-        var callbacks = ExtractTypeDefs(directoryPath, JSDocOperand.Callback);
+        var typedefs = ExtractTypeDefs(PHASER_DIRECTORY, JSDocOperand.Typedef);
+        var callbacks = ExtractTypeDefs(PHASER_DIRECTORY, JSDocOperand.Callback);
         
         var allJSDocBlocks = new List<string>();
         allJSDocBlocks.AddRange(typedefs);
         allJSDocBlocks.AddRange(callbacks);
-        File.WriteAllLines(@"C:\Users\Administrator\Documents\jsBotArena\scripts\AllPhaserTypedefs.js", allJSDocBlocks, Encoding.UTF8);
+        File.WriteAllLines(OUTPUT_FILE_PATH, allJSDocBlocks, OUTPUT_FILE_ENCODING);
     }
 
 #if MULTI_THREADED

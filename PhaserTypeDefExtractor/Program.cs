@@ -58,13 +58,13 @@ namespace PhaserTypeDefExtractor
                 Parallel.ForEach(jsDocBlocks, jsDocBlock => { allTypeDefs.Add(jsDocBlock); });
             });
 #else
-        var allTypeDefs = new List<string>();
-        foreach (var jsFile in jsFiles)
-        {
-            var content = File.ReadAllText(jsFile);
-            var jsDocBlocks = FindTypeDefsInContent(content, searchToken);
-            allTypeDefs.AddRange(jsDocBlocks);
-        }
+            var allTypeDefs = new List<string>();
+            foreach (var jsFile in jsFiles)
+            {
+                var content = File.ReadAllText(jsFile);
+                var jsDocBlocks = FindTypeDefsInContent(content, searchToken);
+                allTypeDefs.AddRange(jsDocBlocks);
+            }
 #endif
 
             return allTypeDefs;

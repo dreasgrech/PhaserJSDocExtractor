@@ -37,7 +37,7 @@ namespace PhaserTypeDefExtractor
 #if MULTI_THREADED
         private static ConcurrentBag<string> ExtractTypeDefs(string directoryPath, JSDocOperand jsDocOperand)
 #else
-    private static List<string> ExtractTypeDefs(string directoryPath, JSDocOperand jsDocOperand)
+        private static List<string> ExtractTypeDefs(string directoryPath, JSDocOperand jsDocOperand)
 #endif
         {
             var searchToken = jsDocOperand switch

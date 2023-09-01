@@ -30,15 +30,53 @@ namespace MyApp // Note: actual namespace depends on the project name.
             // var outputFile = @$"C:\Users\Administrator\Documents\Github\phaser\src\dreasoutput-{DateTime.Now.ToString("yyyyMMddHHmmssffff")}.output";
             const string baseOutputDirectory = @"D:\phasertypedexextractor_output\";
             
-            WriteTypeDefsToFile(directoryPath, JSDocOperand.Typedef, Path.Combine(baseOutputDirectory, "typedefs.output"));
-            WriteTypeDefsToFile(directoryPath, JSDocOperand.Callback, Path.Combine(baseOutputDirectory, "callbacks.output"));
+            // WriteTypeDefsToFile(directoryPath, JSDocOperand.Typedef, Path.Combine(baseOutputDirectory, "typedefs.output"));
+            // WriteTypeDefsToFile(directoryPath, JSDocOperand.Callback, Path.Combine(baseOutputDirectory, "callbacks.output"));
+            
+            var allJSDocBlocks = new List<string>();
+            allJSDocBlocks.AddRange(ExtractTypeDefs(directoryPath, JSDocOperand.Typedef));
+            allJSDocBlocks.AddRange(ExtractTypeDefs(directoryPath, JSDocOperand.Callback));
+            File.WriteAllLines(@"C:\Users\Administrator\Documents\jsBotArena\scripts\AllPhaserTypedefs.js", allJSDocBlocks, Encoding.UTF8);
+            
+            
+            /*
+            var allJSDocBlocks = new List<string>();
+            var jsFiles = Directory.GetFiles(directoryPath, ValidFileExtensions, SearchOption.AllDirectories);
+            var jsDocSearchTokens = new []{"@typedef", "@callback"};
+            
+            foreach (var jsFile in jsFiles)
+            {
+                var content = File.ReadAllText(jsFile);
+                //var jsDocBlocks = new List<string>();
+                var matches = Regex.Matches(content, jsDocBlockRegex);
+                foreach (Match match in matches)
+                {
+                    foreach (var jsDocSearchToken in jsDocSearchTokens)
+                    {
+                        if (match.Value.Contains(jsDocSearchToken))
+                        {
+                            allJSDocBlocks.Add(match.Value);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            var x = allJSDocBlocks.Count;
+            */
         }
 
+        // private static void WriteEverythingToFile(string directoryPath, string outputFilepath)
+        // {
+        //     var typeDefsLines = ExtractTypeDefs(directoryPath, JSDocOperand.Typedef);
+        //     var callbacksLines = ExtractTypeDefs(directoryPath, JSDocOperand.Callback);
+        // }
+        
         private static void WriteTypeDefsToFile(string directoryPath, JSDocOperand jsDocOperand, string outputFilepath)
         {
             var typedefs = ExtractTypeDefs(directoryPath, jsDocOperand);
             
-            Console.WriteLine("Total: " + typedefs.Count);
+            // Console.WriteLine("Total: " + typedefs.Count);
 
             // Print the extracted typedefs for demonstration
             foreach (var typedef in typedefs)

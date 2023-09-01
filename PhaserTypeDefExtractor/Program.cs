@@ -16,11 +16,11 @@ namespace PhaserTypeDefExtractor
 
     internal class Program
     {
-        // This regex captures JSDoc comments
-        private const string JSDOC_BLOCK_REGEX = @"/\*\*[^*]*\*+([^/*][^*]*\*+)*/";
-        private const string VALID_FILE_EXTENSIONS = "*.js";
         private const string PHASER_DIRECTORY = @"C:\Users\Administrator\Documents\Github\phaser\src";
         private const string OUTPUT_FILE_PATH = @"C:\Users\Administrator\Documents\jsBotArena\scripts\AllPhaserTypedefs.js";
+        
+        private const string JSDOC_BLOCK_REGEX = @"/\*\*[^*]*\*+([^/*][^*]*\*+)*/"; // This regex captures JSDoc comments
+        private const string VALID_FILE_EXTENSIONS = "*.js";
         private static readonly Encoding OutputFileEncoding = Encoding.UTF8;
 
         private static void Main()

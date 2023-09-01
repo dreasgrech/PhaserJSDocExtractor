@@ -72,9 +72,19 @@ namespace PhaserTypeDefExtractor
 
         private static IEnumerable<string> FindTypeDefsInContent(string content, string searchToken)
         {
-            var typedefs = new List<string>();
-
             var matches = Regex.Matches(content, JSDOC_BLOCK_REGEX);
+            
+#if MULTI_THREADED
+            var typedefs = new ConcurrentBag<string>();
+            Parallel.ForEach(matches, match =>
+            {
+                if (match.Value.Contains(searchToken))
+                {
+                    typedefs.Add(match.Value);
+                }
+            });
+#else
+            var typedefs = new List<string>();
             foreach (Match match in matches)
             {
                 if (match.Value.Contains(searchToken))
@@ -82,6 +92,7 @@ namespace PhaserTypeDefExtractor
                     typedefs.Add(match.Value);
                 }
             }
+#endif
 
             return typedefs;
         }
